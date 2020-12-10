@@ -117,8 +117,9 @@ constructor(services, wsdlPath, options) {
 
   
   createHandler(options) {
-   
     return async (event, context,) => {
+
+      console.log('🔸event', event);
       if (this.services.hasOwnProperty(event.pathParameters.proxy)) {
         if (
           event.httpMethod === 'GET' &&
