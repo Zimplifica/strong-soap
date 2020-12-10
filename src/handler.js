@@ -117,10 +117,7 @@ constructor(services, wsdlPath, options) {
 
   
   createHandler(options) {
-    // configure the server options
-    if (options) {
-      log.options.debug = options.debug ? true : false;
-    }
+   
     return async (event, context,) => {
       if (this.services.hasOwnProperty(event.pathParameters.proxy)) {
         if (
@@ -191,11 +188,6 @@ constructor(services, wsdlPath, options) {
         throw new Error(g.f('Invalid username or password'));
       }
     }
-
-    if (typeof self.log === 'function') {
-      self.log('info', 'Attempting to bind to ' + pathname);
-    }
-
     // use port.location and current url to find the right binding
     binding = (function(self) {
       var services = self.wsdl.definitions.services;
@@ -209,10 +201,6 @@ constructor(services, wsdlPath, options) {
           portName = name;
           var port = ports[portName];
           var portPathname = url.parse(port.location).pathname.replace(/\/$/, '');
-
-          if (typeof self.log === 'function') {
-            self.log('info', 'Trying ' + portName + ' from path ' + portPathname);
-          }
 
           if (portPathname === pathname)
             return port.binding;
