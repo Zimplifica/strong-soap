@@ -95,12 +95,11 @@ class SoapHandler extends Base{
 constructor(services, wsdlPath, options) {
 
     const xml = fs.readFileSync(path.resolve(wsdlPath), 'utf-8').toString();
-
     var wsdl = new parser.WSDL(xml || services, null, {});
     super(wsdl, options);
     options = options || {};
-    var self = this;
     this.services = services;
+    var self = this;
 
     Object.keys(this.services).keys((key) => console.log(`Service: ${key}`));
 
