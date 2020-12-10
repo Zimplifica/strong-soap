@@ -19,6 +19,7 @@ module.exports = {
   'http': require(base + 'http'),
   'QName': require(base + 'parser/qname'),
   'WSDL': require(base + 'parser/wsdl'),
+  'handler': require(base + 'handler'),
 };
 
 for (var i in securityModules) {

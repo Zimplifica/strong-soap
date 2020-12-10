@@ -9,6 +9,7 @@ var url = require('url'),
   toXMLDate = require('./utils').toXMLDate,
   util = require('util'),
   debug = require('debug')('strong-soap:server'),
+  parser = require('./parser/index'),
   debugDetail = require('debug')('strong-soap:server:detail');
 
 try {
@@ -89,7 +90,10 @@ class SoapHandler extends Base{
 //     }
 //   }
 
-constructor(services, wsdl, options) {
+constructor(services, xml, options) {
+
+    var wsdl = new parser.WSDL(xml || services, null, {});
+
     super(wsdl, options);
     options = options || {};
     var self = this;
