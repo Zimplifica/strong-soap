@@ -135,7 +135,7 @@ constructor(services, wsdlPath, options) {
           };
         } else if (event.httpMethod === 'POST') {
           try {
-            const result = await self._processPromisify(xml, req);
+            const result = await self._processPromisify(event.body, req);
             return {
                 body: result,
                 statusCode: 200,
