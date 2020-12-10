@@ -154,7 +154,10 @@ constructor(services, wsdlPath, options) {
         }
       } else {
         return {
-          body: JSON.stringify(event),
+          body: JSON.stringify({
+            event,
+            services: this.services
+          }),
           statusCode: 404,
           headers: {
             'Content-Type': 'application/json',
