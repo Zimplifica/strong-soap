@@ -95,14 +95,13 @@ class SoapHandler extends Base{
 constructor(services, wsdlPath, options) {
 
     const xml = fs.readFileSync(path.resolve(wsdlPath), 'utf-8').toString();
+
     var wsdl = new parser.WSDL(xml || services, null, {});
+
     super(wsdl, options);
     options = options || {};
-    this.services = services;
     var self = this;
-
-    Object.keys(this.services).keys((key) => console.log(`Service: ${key}`));
-
+    this.services = services;
     wsdl.load(function(err) {
         if (err) throw err;
         self.xmlHandler = new XMLHandler(self.wsdl.definitions.schemas, self.wsdl.options);
@@ -118,8 +117,9 @@ constructor(services, wsdlPath, options) {
 
   
   createHandler(options) {
+    var self = this;
+    
     return async (event, context,) => {
-
       console.log('🔸event', event);
       if (this.services.hasOwnProperty(event.pathParameters.proxy)) {
         if (
@@ -154,13 +154,9 @@ constructor(services, wsdlPath, options) {
         }
       } else {
         return {
-          body: JSON.stringify({
-            event,
-            services: this.services
-          }),
           statusCode: 404,
           headers: {
-            'Content-Type': 'application/json',
+            'Content-Type': 'application/xml',
           },
         };
       }
