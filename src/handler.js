@@ -118,7 +118,7 @@ constructor(services, wsdlPath, options) {
   
   createHandler(options) {
     var self = this;
-    
+
     return async (event, context,) => {
       console.log('🔸event', event);
       if (this.services.hasOwnProperty(event.pathParameters.proxy)) {
@@ -144,6 +144,7 @@ constructor(services, wsdlPath, options) {
                 },
               };
           } catch (error) {
+            console.log('🔴 event', error.message, error);
             return {
                 statusCode: 500,
                 headers: {
