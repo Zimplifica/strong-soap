@@ -135,14 +135,8 @@ constructor(services, wsdlPath, options) {
           };
         } else if (event.httpMethod === 'POST') {
           try {
-            const result = await self._processPromisify(event.body, req);
-            return {
-                body: result,
-                statusCode: 200,
-                headers: {
-                  'Content-Type': 'application/xml',
-                },
-              };
+            const result = await self._processPromisify(event.body, { url: event.path });
+            return result;
           } catch (error) {
             console.log('🔴 event', error.message, error);
             return {
@@ -166,8 +160,14 @@ constructor(services, wsdlPath, options) {
 
   _processPromisify(input, req) {
       return new Promise((resolve, reject) => {
-        this._process(input, req, () => {
-
+        this._process(input, req, (result, statusCode) => {
+          resolve({
+            statusCode,
+            body: result,
+            headers: {
+              'Content-Type': 'application/xml',
+            },
+          })
         })
       })
   }
