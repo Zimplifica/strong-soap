@@ -97,11 +97,13 @@ constructor(services, wsdlPath, options) {
     const xml = fs.readFileSync(path.resolve(wsdlPath), 'utf-8').toString();
 
     var wsdl = new parser.WSDL(xml || services, null, {});
-
     super(wsdl, options);
     options = options || {};
     var self = this;
     this.services = services;
+
+    Object.keys(this.services).keys((key) => console.log(`Service: ${key}`));
+
     wsdl.load(function(err) {
         if (err) throw err;
         self.xmlHandler = new XMLHandler(self.wsdl.definitions.schemas, self.wsdl.options);
