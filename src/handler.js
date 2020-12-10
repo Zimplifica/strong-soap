@@ -2,6 +2,8 @@
 
 var g = require('./globalize');
 var url = require('url'),
+  fs = require('fs'),
+  path = require('path'),
   compress = null,
   events = require('events'),
   XMLHandler = require('./parser/xmlHandler'),
@@ -90,7 +92,9 @@ class SoapHandler extends Base{
 //     }
 //   }
 
-constructor(services, xml, options) {
+constructor(services, wsdlPath, options) {
+
+    const xml = fs.readFileSync(path.resolve(wsdlPath), 'utf-8').toString();
 
     var wsdl = new parser.WSDL(xml || services, null, {});
 
